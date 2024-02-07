@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  docker-registry:
+    restart: always
+    image: registry:latest
+    environment:
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Docker Registry
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.password
+      REGISTRY_STORAGE_DELETE_ENABLED: true
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./auth:/auth
+    networks:
+      - nginx-network
+
+networks:
+  nginx-network:
+    external: true
